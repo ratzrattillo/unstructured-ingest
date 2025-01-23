@@ -1,3 +1,10 @@
+## 0.4.1-dev1
+
+### Enhancements
+
+* **Support img base64 in html**
+* **Fsspec support for direct URI**
+
 ## 0.4.0
 
 ### Enhancements
