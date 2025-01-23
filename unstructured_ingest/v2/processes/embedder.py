@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 class EmbedderConfig(BaseModel):
     embedding_provider: Optional[
         Literal[
+            "ollama",
             "openai",
             "azure-openai",
             "huggingface",
@@ -53,6 +54,16 @@ class EmbedderConfig(BaseModel):
         description="Azure API version", default=None
     )
 
+    def get_ollama_embedder(self, embedding_kwargs: dict) -> "BaseEmbeddingEncoder":
+        from unstructured_ingest.embed.ollama import (
+                OllamaEmbeddingConfig,
+                OllamaEmbeddingEncoder,
+            )
+
+        return OllamaEmbeddingEncoder(
+            config=OllamaEmbeddingConfig.model_validate(embedding_kwargs)
+        )
+    
     def get_huggingface_embedder(self, embedding_kwargs: dict) -> "BaseEmbeddingEncoder":
         from unstructured_ingest.embed.huggingface import (
             HuggingFaceEmbeddingConfig,
@@ -153,6 +164,9 @@ class EmbedderConfig(BaseModel):
         if self.embedding_model_name:
             kwargs["model_name"] = self.embedding_model_name
         # TODO make this more dynamic to map to encoder configs
+        if self.embedding_provider == "ollama":
+            return self.get_ollama_embedder(embedding_kwargs=kwargs)
+        
         if self.embedding_provider == "openai":
             return self.get_openai_embedder(embedding_kwargs=kwargs)
 
