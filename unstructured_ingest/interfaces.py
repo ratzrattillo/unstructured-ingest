@@ -205,7 +205,16 @@ class EmbeddingConfig(BaseConfig):
         if self.model_name:
             kwargs["model_name"] = self.model_name
         # TODO make this more dynamic to map to encoder configs
-        if self.provider == "openai":
+        if self.provider == "ollama":
+            # kwargs["model_name"] = "mistral"
+            # kwargs["ollama_host"] = "http://ie-ollama:11434"
+            from unstructured_ingest.embed.ollama import (
+                OllamaEmbeddingConfig,
+                OllamaEmbeddingEncoder,
+            )
+            
+            return OllamaEmbeddingEncoder(config=OllamaEmbeddingConfig(**kwargs))
+        elif self.provider == "openai":
             from unstructured_ingest.embed.openai import (
                 OpenAIEmbeddingConfig,
                 OpenAIEmbeddingEncoder,
