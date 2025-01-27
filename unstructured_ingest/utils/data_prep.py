@@ -4,9 +4,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Generator, Iterable, Optional, Sequence, TypeVar, cast
 
-import ndjson
 import pandas as pd
 
+from unstructured_ingest.utils import ndjson
 from unstructured_ingest.v2.logger import logger
 
 DATE_FORMATS = ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d+%H:%M:%S", "%Y-%m-%dT%H:%M:%S%z")
@@ -153,6 +153,16 @@ def get_data_by_suffix(path: Path) -> list[dict]:
             raise ValueError(f"Unsupported file type: {path}")
 
 
+def write_data(path: Path, data: list[dict], indent: int = 2) -> None:
+    with path.open("w") as f:
+        if path.suffix == ".json":
+            json.dump(data, f, indent=indent, ensure_ascii=False)
+        elif path.suffix == ".ndjson":
+            ndjson.dump(data, f, ensure_ascii=False)
+        else:
+            raise IOError("Unsupported file type: {path}")
+
+
 def get_data(path: Path) -> list[dict]:
     try:
         return get_data_by_suffix(path=path)
@@ -178,8 +188,6 @@ def get_data(path: Path) -> list[dict]:
             return df.to_dict(orient="records")
         except Exception as e:
             logger.warning(f"failed to read {path} as parquet: {e}")
-
-    raise IOError(f"File could not be parsed: {path}")
 
 
 def get_data_df(path: Path) -> pd.DataFrame:

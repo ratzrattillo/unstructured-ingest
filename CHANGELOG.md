@@ -1,9 +1,15 @@
-## 0.4.1-dev1
+## 0.4.1
 
 ### Enhancements
 
 * **Support img base64 in html**
 * **Fsspec support for direct URI**
+* **Support href extraction to local file**
+* **Added VastDB source and destination connector**
+
+### Fixes
+
+* **Fix how data updated before writing to sql tables based on columns in table**
 
 ## 0.4.0
 

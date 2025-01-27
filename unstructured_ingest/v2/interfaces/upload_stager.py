@@ -2,11 +2,11 @@ import json
 from abc import ABC
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
-import ndjson
 from pydantic import BaseModel
 
+from unstructured_ingest.utils import ndjson
 from unstructured_ingest.v2.interfaces.file_data import FileData
 from unstructured_ingest.v2.interfaces.process import BaseProcess
 
@@ -21,16 +21,6 @@ UploadStagerConfigT = TypeVar("UploadStagerConfigT", bound=UploadStagerConfig)
 @dataclass
 class UploadStager(BaseProcess, ABC):
     upload_stager_config: UploadStagerConfigT
-
-    def write_output(self, output_path: Path, data: list[dict], indent: Optional[int] = 2) -> None:
-        if output_path.suffix == ".json":
-            with output_path.open("w") as f:
-                json.dump(data, f, indent=indent)
-        elif output_path.suffix == ".ndjson":
-            with output_path.open("w") as f:
-                ndjson.dump(data, f)
-        else:
-            raise ValueError(f"Unsupported output format: {output_path}")
 
     def conform_dict(self, element_dict: dict, file_data: FileData) -> dict:
         return element_dict
@@ -49,7 +39,7 @@ class UploadStager(BaseProcess, ABC):
                 writer = ndjson.writer(out_f)
                 for element in reader:
                     conformed_element = self.conform_dict(element_dict=element, file_data=file_data)
-                    writer.writerow(row=conformed_element)
+                    writer.write(row=conformed_element)
                     writer.f.flush()
 
     def process_whole(self, input_file: Path, output_file: Path, file_data: FileData) -> None:
