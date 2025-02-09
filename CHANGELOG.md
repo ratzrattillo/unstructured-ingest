@@ -1,3 +1,51 @@
+## 0.5.0-dev0
+
+### Fixes
+
+* **Fix Attribute Not Exist bug in GoogleDrive connector**
+
+### Enhancements
+
+* **Allow dynamic metadata for SQL Connectors**
+* **Add entities field to pinecone connector default fields**
+
+## 0.5.0
+
+### Fixes
+
+* **Change aws-bedrock to bedrock**
+* **Update Sharepoint tests**
+
+### Enhancements
+
+* **Don't raise error by default for unsupported filetypes in partitioner** - Add a flag to the partitioner to not raise an error when an unsupported filetype is encountered.
+
+## 0.4.7
+
+### Fixes
+
+* **Add missing async azure openai embedder implementation**
+* **Update Sharepoint to support new Microsoft credential sequence**
+
+## 0.4.6
+
+### Fixes
+
+* **Fix Upload support for OneDrive connector**
+* **Fix Databricks Delta Tables connector's "Service Principal" authentication method**
+
+## 0.4.5
+
+### Fixes
+
+* **Fix downloading large files for OneDrive**
+
+## 0.4.4
+
+### Fixes
+
+* **Fix AsyncIO support for OneDrive connector**
+
 ## 0.4.3
 
 ### Enhancements
