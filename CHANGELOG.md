@@ -1,8 +1,27 @@
-## 0.5.2-dev0
+## 0.5.3
 
 ### Enhancements
 
+* **Improvements on Neo4J uploader, and ability to create a vector index**
+* **Optimize embedder code** - Move duplicate code to base interface, exit early if no elements have text. 
+
+### Fixes
+
+* **Fix bedrock embedder: rename embed_model_name to embedder_model_name**
+
+## 0.5.2
+
+### Enhancements
+
+* **Improved google drive precheck mechanism**
+* **Added integration tests for google drive precheck and connector**
 * **Only embed elements with text** - Only embed elements with text to avoid errors from embedders and optimize calls to APIs.
+* **Improved google drive precheck mechanism**
+* **Added integration tests for google drive precheck and connector**
+
+### Fixes
+
+* **Fix Snowflake Uploader error with array variable binding**
 
 ## 0.5.1
 
